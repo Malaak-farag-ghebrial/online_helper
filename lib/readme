@@ -1,0 +1,24 @@
+
+app for orders for following the status of order
+
+product                +
+show product           +
+adding product         +
+editing product        +
+delete product         +
+
+category               +
+adding category        +
+editing category       +
+delete category        +
+
+order
+show order
+adding order by convert product into order
+editing order ... status
+delete order
+
+customer
+adding customer
+delete customer
+editing customer
