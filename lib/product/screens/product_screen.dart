@@ -67,11 +67,12 @@ class ShowProductScreen extends StatelessWidget {
                             print('${productCubit.products[index].categoryId}');
                           },
                           child: productCard(
-                            image: productCubit.products[index].image,
-                            name: productCubit.products[index].name!,
-                            qty: productCubit.products[index].amount!,
-                            price: productCubit.products[index].price!,
-                            catid: productCubit.products[index].categoryId,
+                            product: productCubit.products[index],
+                            // image: productCubit.products[index].image,
+                            // name: productCubit.products[index].name!,
+                            // qty: productCubit.products[index].amount!,
+                            // price: productCubit.products[index].price!,
+                            // catid: productCubit.products[index].categoryId,
                             edit: () async {
 
                               productCubit.showField = false;
@@ -95,7 +96,7 @@ class ShowProductScreen extends StatelessWidget {
                                   productCubit.products[index].categoryId!).whenComplete(()async{
                                 await showDialog(
                                  context: context,
-                                 builder: (context) {
+                                 builder: (ctx) {
                                    return  addProductPopUp(
                                      update: true,
                                      id: productCubit.products[index].id,
@@ -121,7 +122,7 @@ class ShowProductScreen extends StatelessWidget {
                 onPressed: () async {
                   showDialog(
                       context: context,
-                      builder: (context) => addProductPopUp());
+                      builder: (ctx) => addProductPopUp());
                 },
                 label: const Text('Add product')),
           );

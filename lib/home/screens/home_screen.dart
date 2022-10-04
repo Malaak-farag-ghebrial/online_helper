@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_helper/category/cubit/category_cubit.dart';
 import 'package:online_helper/home/cubit/home_cubit.dart';
 import 'package:online_helper/home/cubit/home_states.dart';
+import 'package:online_helper/orders/cubit/order_cubit.dart';
 import 'package:online_helper/orders/screens/order_screen.dart';
 import 'package:online_helper/product/cubit/product_cubit.dart';
 import 'package:online_helper/product/cubit/product_states.dart';
@@ -12,6 +13,7 @@ import 'package:online_helper/product/widgets/pop_up_add_product.dart';
 import 'package:online_helper/shared/component/indicator.dart';
 import '../../category/cubit/category_states.dart';
 import '../../category/widgets/pop_up_add_category.dart';
+import '../../orders/cubit/order_states.dart';
 import '../widget/admin_card.dart';
 import '../../product/screens/product_screen.dart';
 import '../../shared/component/custom_navigator.dart';
@@ -50,15 +52,23 @@ class HomeScreen extends StatelessWidget {
                       navigateTo(context, ShowProductScreen());
                     },
                   );
-                },),
-                card(
-                  name: 'orders',
-                  icon: Icons.shop_rounded,
-                  qty: 32,
-                  onTap: () {
-                    navigateTo(context, OrderScreen(),
-                    );
-                  },),
+                },
+                ),
+                BlocBuilder<OrderCubit,OrderStates>(
+                    builder: (context,state){
+                      var orderCubit = OrderCubit.get(context);
+                  return card(
+                    name: 'orders',
+                    icon: Icons.shop_rounded,
+                    qty: orderCubit.orders.length,
+                    onTap: () async{
+                      if(orderCubit.ordersPlaced != []){
+                        navigateTo(context, OrderScreen()) ;
+                      }
+                    },
+                  );
+                },
+                ),
                 // card(
                 //     name: 'categories',
                 //     icon: Icons.category_outlined,
@@ -77,7 +87,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     onTap: () async{
                       await showDialog(context: context,
-                        builder: (context) => addProductPopUp(),);
+                        builder: (ctx) => addProductPopUp(),);
                     },);
                 }),
                 BlocBuilder<CategoryCubit,CategoryStates>(
@@ -94,7 +104,7 @@ class HomeScreen extends StatelessWidget {
                       onTap: () {
                         showDialog(
                           context: context,
-                          builder: (context)=> addCategoryPopUp(context,
+                          builder: (ctx)=> addCategoryPopUp(context,
                             action: () {
                               categoryCubit.addCategory(
                                 name: categoryController.text,

@@ -19,7 +19,7 @@ class AppConst{
   static String category_id = 'category_id' ;
   static String description = 'description' ;
   static String amount = 'amount' ;
-  static String status = 'statue' ;
+  static String status = 'status' ;
   static String tax = 'taxes' ;
   static String phone = 'phone' ;
   static String address = 'address' ;

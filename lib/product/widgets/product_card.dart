@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_helper/models/product_model.dart';
 import 'package:online_helper/shared/component/image_fade.dart';
 import 'package:online_helper/shared/constants/app_constants.dart';
 
@@ -6,11 +7,9 @@ import '../../shared/constants/colors.dart';
 import '../../shared/constants/images.dart';
 
 productCard({
-  required String name,
-  required int qty,
-  required double price,
-  int? catid,
-  String? image,
+  required ProductModel product,
+  // int? catid,
+  // String? image,
   Color iconColor = Colors.white,
   Function()? edit,
 }) =>
@@ -41,7 +40,7 @@ productCard({
                 leading: ClipRRect(
                   borderRadius: BorderRadius.circular(5),
                   child: imageNetwork(
-                    image: image ?? Images.networkImageTest,
+                    image: product.image ?? Images.networkImageTest,
                     fit: BoxFit.fill,
                     height: 100,
                     width: 80,
@@ -54,12 +53,12 @@ productCard({
                       children: [
                         Expanded(
                           child: Text(
-                            name,
+                            '${product.name!} -- ${product.id}',
                           overflow: TextOverflow.ellipsis,
                            // maxLines: 1,
                           ),
                         ),
-                        Text('Qty : $qty'),
+                        Text('Qty : ${product.amount}'),
                       ],
                     ),
                     const SizedBox(
@@ -67,7 +66,7 @@ productCard({
                     ),
                   ],
                 ),
-                subtitle: Text('EGP $price -- ${catid}'),
+                subtitle: Text('EGP ${product.price} -- ${product.categoryId}'),
               )),
         ),
         PositionedDirectional(

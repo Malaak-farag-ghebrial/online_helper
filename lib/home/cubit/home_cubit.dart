@@ -67,11 +67,8 @@ class HomeCubit extends Cubit<HomeStates>{
       batch.execute('''
       CREATE TABLE "${AppConst.order_table}" (
       '${AppConst.id}' INTEGER PRIMARY KEY AUTOINCREMENT,
-      '${AppConst.status}' TEXT,
-      '${AppConst.address}' TEXT,
-      '${AppConst.phone}' TEXT,
+      '${AppConst.status}' INTEGER,
       '${AppConst.customer_id}' INTEGER,
-      '${AppConst.name}' TEXT,
       '${AppConst.product_id}' INTEGER,
       '${AppConst.note}' TEXT)
       '''); // ORDER

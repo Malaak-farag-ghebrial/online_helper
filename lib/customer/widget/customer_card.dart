@@ -1,13 +1,12 @@
 
 import 'package:flutter/material.dart';
+import 'package:online_helper/models/customer_model.dart';
 
 import '../../shared/constants/app_constants.dart';
 import '../../shared/constants/colors.dart';
 
 customerCard({
-  required String name,
-  required String phone,
-  required String city,
+  required CustomerModel customer,
   Color iconColor = Colors.white,
   Function()? edit,
   Function()? call,
@@ -43,7 +42,7 @@ customerCard({
                   children: [
                     Expanded(
                       child: Text(
-                        name,
+                        customer.name!,
                         overflow: TextOverflow.ellipsis,
                         // maxLines: 1,
                       ),
@@ -57,9 +56,9 @@ customerCard({
             ),
             subtitle: Row(
               children: [
-                Expanded(child: Text(city),),
+                Expanded(child: Text('${customer.address}  -  ${customer.id}',),),
                // Spacer(),
-                Text('$phone'),
+                Text('${customer.phone}'),
               ],
             ),
           ),

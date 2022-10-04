@@ -12,6 +12,7 @@ var priceController = TextEditingController();
 var costController = TextEditingController();
 var taxController = TextEditingController();
 var amountController = TextEditingController();
+var notesController = TextEditingController();
 var descriptionController = TextEditingController();
 var imageController = TextEditingController();
 

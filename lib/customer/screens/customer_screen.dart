@@ -56,13 +56,11 @@ class CustomerScreen extends StatelessWidget {
                       }
                       if (direction == DismissDirection.endToStart) {
                         customerCubit
-                            .deleteCustomer(customerCubit.customers[index +1].id!,index +1);
+                            .deleteCustomer(customerCubit.customers[index +1].id!,index +1,context);
                       }
                     },
                     child: customerCard(
-                        name: customerCubit.customers[index +1].name!,
-                        phone: customerCubit.customers[index +1].phone!,
-                        city: customerCubit.customers[index + 1].address!,
+                       customer: customerCubit.customers[index +1],
                         call: () {
                           customerCubit.callCustomer(
                               customerCubit.customers[index +1].phone!,
@@ -77,7 +75,7 @@ class CustomerScreen extends StatelessWidget {
                           customerCubit.customers[index +1].address!;
                           await showDialog(
                               context: context,
-                              builder: (context) {
+                              builder: (ctx) {
                                 return addCustomerPopUp(
                                   context,
                                   action: () {
@@ -91,7 +89,6 @@ class CustomerScreen extends StatelessWidget {
                                     customerNameController.clear();
                                     customerPhoneController.clear();
                                     customerAddressController.clear();
-
                                   },
                                   update: true,
                                 );
@@ -107,7 +104,7 @@ class CustomerScreen extends StatelessWidget {
               onPressed: () {
                 showDialog(
                     context: context,
-                    builder: (context) {
+                    builder: (ctx) {
                       return addCustomerPopUp(
                           context,
                           action: () {

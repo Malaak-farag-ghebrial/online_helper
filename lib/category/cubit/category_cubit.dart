@@ -18,7 +18,7 @@ class CategoryCubit extends Cubit<CategoryStates> {
 
 
   String? categoryById ;
-  List<String> catId= [];
+  int catId = 1;
   List<CategoryModel> categories = [
     CategoryModel(id: 0, name: ' + add category'),
   ];
@@ -40,14 +40,24 @@ class CategoryCubit extends Cubit<CategoryStates> {
       ).toJson(),
     );
     await batch.commit().then((value)async{
-      CacheHelper.getDataList(key: AppConst.category_id).then((value){
+
+      await CacheHelper.getData(key: '${AppConst.category_id}').then((value){
         catId = value;
-        print('cashed helper${value}');
+        catId ++;
+        print('########## $catId');
       }).catchError((error){
-        GlobalFunction.errorPrint(error, 'get catId category');
+        GlobalFunction.errorPrint(error, 'cached catId add category');
       });
-      catId.add('0');
-      await CacheHelper.putData(key: '${AppConst.category_id}', value: catId);
+
+        print('cashed helper ${catId}');
+
+      await CacheHelper.putData(key: '${AppConst.category_id}', value: catId).then((value){
+        print('put cached $value  added');
+      }).catchError((error){
+        GlobalFunction.errorPrint(error, 'put catId add category');
+      });
+
+
 
       print('CATEGORY ++++++ INSERTED');
       emit(AddCategoryState());

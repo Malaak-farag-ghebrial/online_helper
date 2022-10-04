@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 Widget inputField({
   required TextEditingController controller,
@@ -8,6 +9,7 @@ Widget inputField({
   Widget? suffix,
   bool obscureText = false,
   bool validate = true,
+  int maxChar = 600,
   Iterable<String>? autoFill,
   Function(String value)? onSubmit,
 }) =>
@@ -19,6 +21,7 @@ Widget inputField({
       child: TextFormField(
         controller: controller,
         keyboardType: keyboardType,
+        maxLength: maxChar == 11? 11 : null,
         obscureText: obscureText ,
         decoration: InputDecoration(
           hintText: hintText,

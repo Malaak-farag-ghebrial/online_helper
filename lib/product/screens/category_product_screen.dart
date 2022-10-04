@@ -66,10 +66,11 @@ class ShowCategoryProductScreen extends StatelessWidget {
                             print('${productCubit.categoryProducts[index].categoryId}');
                           },
                           child: productCard(
-                            image: productCubit.categoryProducts[index].image,
-                            name: productCubit.categoryProducts[index].name!,
-                            qty: productCubit.categoryProducts[index].amount!,
-                            price: productCubit.categoryProducts[index].price!,
+                            product: productCubit.products[index],
+                            // image: productCubit.categoryProducts[index].image,
+                            // name: productCubit.categoryProducts[index].name!,
+                            // qty: productCubit.categoryProducts[index].amount!,
+                            // price: productCubit.categoryProducts[index].price!,
                             edit: () async {
 
                               productCubit.showField = false;
@@ -93,7 +94,7 @@ class ShowCategoryProductScreen extends StatelessWidget {
                                   productCubit.categoryProducts[index].categoryId!).whenComplete(()async{
                                 await showDialog(
                                   context: context,
-                                  builder: (context) {
+                                  builder: (ctx) {
                                     return  addProductPopUp(
                                       update: true,
                                       id: productCubit.categoryProducts[index].id,

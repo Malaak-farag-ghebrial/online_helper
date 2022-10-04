@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../shared/component/custom_navigator.dart';
 import '../../shared/component/input_field.dart';
@@ -35,15 +36,22 @@ addCustomerPopUp(
                 Row(
                   children: [
                     Expanded(
-                      child: inputField(
-                        controller: customerNameController,
-                        hintText: 'Name',
+                      child: Column(
+                        children: [
+                          inputField(
+                            controller: customerNameController,
+                            hintText: 'Name',
+                          ),
+                          SizedBox(height: 22,),
+                        ],
                       ),
                     ),
                     Expanded(
                       child: inputField(
                         controller: customerPhoneController,
                         hintText: 'Phone',
+                        keyboardType: TextInputType.phone,
+                       maxChar: 11,
                       ),
                     ),
                   ],

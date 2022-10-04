@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:online_helper/customer/cubit/customer_states.dart';
 import 'package:online_helper/models/customer_model.dart';
+import 'package:online_helper/orders/cubit/order_cubit.dart';
 import 'package:online_helper/shared/global_variable.dart';
 import 'package:sqflite/sqflite.dart';
+import '../../shared/component/toast.dart';
 import '../../shared/constants/app_constants.dart';
 import '../../shared/network/locale/cached_helper.dart';
 
@@ -13,7 +15,7 @@ class CustomerCubit extends Cubit<CustomerStates>{
 
   static CustomerCubit get(context) => BlocProvider.of(context);
 
-  List<String> custId = [];
+  int custId = 1;
   List<CustomerModel> customers = [];
 
   void addCustomer({
@@ -32,15 +34,19 @@ class CustomerCubit extends Cubit<CustomerStates>{
     );
     await batch.commit().then((value)async{
 
-      CacheHelper.getDataList(key: AppConst.customer_id).then((value){
-        custId = value;
-        print('cashed helper${value}');
+       await CacheHelper.getData(key: AppConst.customer_id).then((value){
+         custId = value;
+         custId ++;
+       }).catchError((error){
+         GlobalFunction.errorPrint(error, 'cached custId add customer');
+       });
+       print('cached custId $custId');
+      await CacheHelper.putData(key: '${AppConst.customer_id}', value: custId).then((value){
+        print('put cached $value added');
       }).catchError((error){
-        GlobalFunction.errorPrint(error, 'get custId customer');
+        GlobalFunction.errorPrint(error, 'put custId add customer');
       });
-      custId.add('0');
-      await CacheHelper.putData(key: '${AppConst.category_id}', value: custId);
-
+       print('cached custId $custId');
       print('CUSTOMER +++++ INSERTED');
       emit(AddCustomerState());
       getCustomer();
@@ -76,7 +82,8 @@ class CustomerCubit extends Cubit<CustomerStates>{
     });
   }
 
-  void deleteCustomer(int id,int index){
+  void deleteCustomer(int id,int index,context){
+    if(OrderCubit.get(context).customerOrder.length == 0){
     database.delete(AppConst.customer_table,
     where: '${AppConst.id}=?',
       whereArgs: [id],
@@ -88,6 +95,10 @@ class CustomerCubit extends Cubit<CustomerStates>{
     }).catchError((error){
       GlobalFunction.errorPrint(error, 'delete customer');
     });
+    }else{
+      toast(msg: 'can\'t delete, it has some order included', state: ToastStates.WARNING);
+      emit(CantDeleteCustomerState());
+    }
   }
 
   void getCustomer(){

@@ -53,7 +53,7 @@ addProductPopUp({
                               onPressed: () async {
                                 showDialog(
                                   context: context,
-                                  builder: (context) => pickImageAlert(
+                                  builder: (ctx) => pickImageAlert(
                                     itemTitle1: const Text('Camera'),
                                     iconTrailing1: const Icon(Icons.camera),
                                     action1: () {

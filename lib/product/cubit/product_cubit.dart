@@ -20,7 +20,7 @@ class ProductCubit extends Cubit<ProductStates>{
   int categoryId = 0;
   bool showField = false;
   bool set = false;  // to reset the category for update
-  List<String> catId = [];
+  int catId = 0;
   List<ProductModel> products = [];
   List<ProductModel> categoryProducts = [];
 
@@ -72,12 +72,12 @@ class ProductCubit extends Cubit<ProductStates>{
     required BuildContext context,
   })async{
 
-    await CacheHelper.getDataList(key: '${AppConst.category_id}').then((value){
-      catId = value;
-      print(value);
+      await CacheHelper.getData(key: '${AppConst.category_id}').then((value){
+        catId = value;
     }).catchError((error){
-      GlobalFunction.errorPrint(error, 'get catId product add');
-    });
+      GlobalFunction.errorPrint(error, 'cached catId add product');
+      });
+
     set = false;
     Batch batch = database.batch();
 
@@ -86,7 +86,7 @@ class ProductCubit extends Cubit<ProductStates>{
       price: double.parse(price.toString()),
       image: image,
       amount: int.parse(amount.toString()),
-      categoryId: showField? catId.length + 1  : categoryId,
+      categoryId: showField? catId + 1  : categoryId,
       cost: double.parse(cost.toString()),
       description: desc,
       taxes: double.parse(tax.toString()),
@@ -120,12 +120,12 @@ class ProductCubit extends Cubit<ProductStates>{
         required BuildContext context,
       })async{
 
-    await CacheHelper.getDataList(key: '${AppConst.category_id}').then((value){
+    await CacheHelper.getData(key: '${AppConst.category_id}').then((value){
       catId = value;
-      print(value);
     }).catchError((error){
-      GlobalFunction.errorPrint(error, 'get catId product update');
+      GlobalFunction.errorPrint(error, 'cached catId update product');
     });
+
     Batch batch = database.batch();
     batch.update(AppConst.product_table,
     ProductModel(
@@ -133,7 +133,7 @@ class ProductCubit extends Cubit<ProductStates>{
       name: name,
       image: image,
       amount: int.parse(amount.toString()),
-      categoryId: set == false ? showField? catId.length +1 : categoryById : categoryId,
+      categoryId: set == false ? showField? catId + 1 : categoryById : categoryId,
       cost: double.parse(cost.toString()),
       price: double.parse(price.toString()),
       taxes: double.parse(tax.toString()),

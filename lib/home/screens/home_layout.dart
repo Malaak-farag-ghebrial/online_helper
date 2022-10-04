@@ -14,7 +14,7 @@ class HomeLayOut extends StatelessWidget {
          var homeCubit = HomeCubit.get(context);
         return WillPopScope(
           onWillPop: ()async{
-            return await showDialog(context: context, builder: (context){
+            return await showDialog(context: context, builder: (ctx){
               return AlertDialog(
                 title: const Text('Are you sure you want to exit ?'),
                 actions: [

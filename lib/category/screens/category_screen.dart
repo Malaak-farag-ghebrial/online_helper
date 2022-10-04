@@ -64,7 +64,7 @@ class CategoryScreen extends StatelessWidget {
                             },
                             edit: ()async{
                               categoryController.text =  categoryCubit.categories[index + 1].name!;
-                              await showDialog(context: context, builder: (context){
+                              await showDialog(context: context, builder: (ctx){
                                return addCategoryPopUp(
                                  context,
                                  update: true,
@@ -91,7 +91,7 @@ class CategoryScreen extends StatelessWidget {
                 onPressed: (){
                   showDialog(
                       context: context,
-                      builder: (context)=> addCategoryPopUp(context,
+                      builder: (ctx)=> addCategoryPopUp(context,
                       action: () {
                           categoryCubit.addCategory(
                               name: categoryController.text,
